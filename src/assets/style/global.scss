@@ -1,8 +1,28 @@
 @import "~reset.css";
+@import "~antd/dist/antd.min.css";
 
 @import "./base";
 
 body {
   width: 100%;
   background-color: antiquewhite;
+}
+
+.c-header {
+  margin-bottom: 10px;
+
+  .title {
+    text-align: center;
+    font-size: 22px;
+  }
+}
+
+.account {
+  width: 300px;
+  height: 200px;
+  margin: 0 auto;
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }

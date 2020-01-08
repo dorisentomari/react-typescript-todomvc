@@ -1,13 +1,11 @@
 import React  from 'react';
-
 import './index.scss';
+import Header from 'src/components/Header';
 
-const Home: React.FC = (props) => {
-  console.log('home');
-  console.log(props);
+const Home: React.FC = props => {
   return (
     <div className='home'>
-      <h2>home page</h2>
+      <Header/>
     </div>
   );
 };
