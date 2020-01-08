@@ -6,9 +6,11 @@
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
     "test": "node scripts/test.js",
-    "lint": "eslint --fix src/**/*"
+    "lint": "eslint --fix src/**/*{.ts,.tsx,.js,.jsx}"
   },
   "dependencies": {
+    "@types/antd": "^1.0.0",
+    "antd": "^3.26.6",
     "connected-react-router": "^6.6.1",
     "history": "^4.10.1",
     "react": "^16.12.0",
@@ -18,7 +20,8 @@
     "react-router-dom": "^5.1.2",
     "redux": "^4.0.5",
     "redux-logger": "^3.0.6",
-    "redux-thunk": "^2.3.0"
+    "redux-thunk": "^2.3.0",
+    "reset.css": "^2.0.2"
   },
   "devDependencies": {
     "@babel/core": "7.7.4",
@@ -70,6 +73,7 @@
     "jest-resolve": "24.9.0",
     "jest-watch-typeahead": "0.4.2",
     "mini-css-extract-plugin": "0.8.0",
+    "node-sass": "^4.13.0",
     "optimize-css-assets-webpack-plugin": "5.0.3",
     "pnp-webpack-plugin": "1.5.0",
     "postcss-flexbugs-fixes": "4.1.0",
@@ -83,7 +87,7 @@
     "redux-devtools-extension": "^2.13.8",
     "resolve": "1.12.2",
     "resolve-url-loader": "3.1.1",
-    "sass-loader": "8.0.0",
+    "sass-loader": "^8.0.0",
     "semver": "6.3.0",
     "style-loader": "1.0.0",
     "terser-webpack-plugin": "2.2.1",

@@ -1,17 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Switch, Route, NavLink, Redirect } from 'react-router-dom';
+import { Switch, Route, NavLink, BrowserRouter as Router } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import { ConnectedRouter } from 'connected-react-router';
 
 import routes from './routes';
 import store from './store';
-import history from './store/history';
+import NotFound from './pages/notFound';
 
+import 'src/assets/style/global.scss';
 
 ReactDOM.render((
   <Provider store={store}>
-    <ConnectedRouter history={history}>
+    <Router>
       <div className='App'>
         <ul>
           {
@@ -31,9 +31,9 @@ ReactDOM.render((
                 component={route.component} />
             ))
           }
-          <Redirect to={'/'}/>
+          <Route component={NotFound} />
         </Switch>
       </div>
-    </ConnectedRouter>
+    </Router>
   </Provider>
 ), document.getElementById('root'));

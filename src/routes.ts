@@ -1,6 +1,7 @@
 import React from 'react';
 import Home from './pages/home';
-import User from './pages/user';
+import Login from './pages/login';
+import Register from './pages/register';
 import { RouteComponentProps } from 'react-router';
 
 interface Routes {
@@ -18,10 +19,16 @@ const routes: Array<Routes> = [
     component: Home
   },
   {
-    name: 'user',
-    to: '/user',
+    name: 'login',
+    to: '/login',
     exact: true,
-    component: User
+    component: Login
+  },
+  {
+    name: 'register',
+    to: '/register',
+    exact: true,
+    component: Register
   }
 ];
 

@@ -1,13 +1,15 @@
-import React, { Component } from 'react';
+import React  from 'react';
 
-class Home extends Component {
-  render() {
-    return (
-      <div>
-        <h2>home page</h2>
-      </div>
-    );
-  }
-}
+import './index.scss';
+
+const Home: React.FC = (props) => {
+  console.log('home');
+  console.log(props);
+  return (
+    <div className='home'>
+      <h2>home page</h2>
+    </div>
+  );
+};
 
 export default Home;
