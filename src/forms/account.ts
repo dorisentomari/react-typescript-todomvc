@@ -8,7 +8,6 @@ export default {
       { min: minLength, message: `username min length is ${minLength}` },
       { max: maxLength, message: `username max length is ${maxLength}` }
     ],
-    trigger: 'onBlur'
   },
   password: {
     rules: [
@@ -16,6 +15,10 @@ export default {
       { min: minLength, message: `password min length is ${minLength}` },
       { max: maxLength, message: `password max length is ${maxLength}` }
     ],
-    trigger: 'onBlur'
+  },
+  email: {
+    rules: [
+      { required: true, message: 'Please input your email' }
+    ],
   }
 };
