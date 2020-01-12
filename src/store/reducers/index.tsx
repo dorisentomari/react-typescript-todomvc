@@ -1,22 +1,18 @@
 import { combineReducers } from 'redux';
 import { connectRouter } from 'connected-react-router';
-import home from './home';
-import account from './account';
+import home from './home.reducer';
+import account from './account.reducer';
 
 import history from '../history';
 
 const reducers = combineReducers({
+  router: connectRouter(history),
   home,
-  account,
-  router: connectRouter(history)
+  account
 });
 
 export default reducers;
 
-export type TypeRootState = {
+export type TypeRootStateInterface = {
   [key in keyof typeof reducers]: ReturnType<typeof reducers[key]>
 }
-
-// export type TypeRootState = {
-//   [key in keyof typeof reducers]: ReturnType<typeof reducers[key>
-// }

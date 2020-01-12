@@ -10,6 +10,8 @@ export interface RegisterParamsInterface {
 }
 
 export interface JwtTokenInterface {
-  token: string;
-  expiresIn: number;
+  data: {
+    token: string;
+    expiresIn: number;
+  };
 }

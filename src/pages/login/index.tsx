@@ -1,19 +1,29 @@
-import React  from 'react';
-import { Form, Input, Icon, Button, Checkbox, message } from 'antd';
+import React from 'react';
+import { Button, Checkbox, Form, Icon, Input, message } from 'antd';
 import { FormComponentProps } from 'antd/es/form';
 import { RouteComponentProps } from 'react-router';
 import { Link } from 'react-router-dom';
-import AccountForm from 'src/forms/account';
+import { connect } from 'react-redux';
+import ls from 'local-storage';
+
 import Header from 'src/components/Header';
+import { LoginHttp } from 'src/http/authorization.http';
+import AccountAction from 'src/store/actions/account.action';
+import AccountForm from 'src/forms/account';
+import errorHandler from '../../helpers/errorHandler';
 
-import { LoginHttp } from '../../http/authorization.http';
-import { JwtTokenInterface } from '../../interfaces/http/authorization.interface';
+import { JwtTokenInterface } from 'src/interfaces/http/authorization.interface';
+import { TypeRootStateInterface } from 'src/store/reducers/';
+import { AccountLoginParamsInterface, LOGIN_TYPES } from '../../interfaces/store/reducers.interface';
+import { Dispatch } from 'redux';
 
-interface Params {
+interface IParams {
 }
 
-type RouteProps = RouteComponentProps<Params>;
-type Props = RouteProps & FormComponentProps;
+type StateProps = ReturnType<typeof mapStateToProps>
+type DispatchProps = ReturnType<typeof mapDispatchToProps>;
+type RouteProps = RouteComponentProps<IParams>;
+type Props = StateProps & DispatchProps & RouteProps & FormComponentProps;
 
 const Login: React.FC<Props> = (props) => {
 
@@ -21,16 +31,24 @@ const Login: React.FC<Props> = (props) => {
     event.preventDefault();
     props.form.validateFields((err, values) => {
       if (err) {
-        // message.warning('表单填写错误');
+        message.warning('表单填写错误');
         return false;
       }
 
-      LoginHttp(values).then((tokenData: JwtTokenInterface) => {
-        message.success('登录成功');
+      LoginHttp(values).then((res: JwtTokenInterface) => {
+        const { token, expiresIn }  = res.data;
+        const params: AccountLoginParamsInterface = {
+          token,
+          expiresIn,
+          loginState: LOGIN_TYPES.LOGIN
+        };
+        ls('token', token);
+        ls('expiresIn', expiresIn);
+        props.userLoginDispatch(params);
         props.history.push('/');
+        message.success('登录成功');
       }).catch((err) => {
-        console.log(err.response);
-        message.error(err.response.data.message);
+        errorHandler.httpError(err);
       });
     });
   };
@@ -77,7 +95,14 @@ const Login: React.FC<Props> = (props) => {
   );
 };
 
+const mapStateToProps = (state: TypeRootStateInterface): TypeRootStateInterface  => state;
+
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  userLoginDispatch(params: AccountLoginParamsInterface) {
+    return dispatch(AccountAction.userLogin(params));
+  }
+});
+
 const FormLogin = Form.create({ name: 'login' })(Login);
 
-
-export default FormLogin;
+export default connect(mapStateToProps, mapDispatchToProps)(FormLogin);

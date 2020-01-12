@@ -3,9 +3,12 @@ import { Link } from 'react-router-dom';
 import { Form, Input, Icon, Button, message } from 'antd';
 import { FormComponentProps } from 'antd/es/form';
 import { RouteComponentProps } from 'react-router';
-import AccountForm from 'src/forms/account';
+
 import Header from 'src/components/Header';
+import AccountForm from 'src/forms/account';
+import errorHandler from '../../helpers/errorHandler';
 import { RegisterHttp } from 'src/http/authorization.http';
+
 import { RegisterParamsInterface } from 'src/interfaces/http/authorization.interface';
 
 
@@ -28,8 +31,7 @@ const Register: React.FC<Props> = (props) => {
         message.success('注册成功');
         props.history.push('/login');
       }).catch(err => {
-        console.log(err.response);
-        message.error(err.response.data.message);
+        errorHandler.httpError(err);
       });
     });
   };

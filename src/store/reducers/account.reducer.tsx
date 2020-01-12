@@ -1,21 +1,20 @@
-import { TypeAccount, TypeAction, LOGIN_TYPES } from 'src/types/store';
+import { LOGIN_TYPES, AccountStateInterface } from 'src/interfaces/store/reducers.interface';
+import { ActionInterface } from 'src/interfaces/store/actions.interface';
+
 import * as TYPES from '../actionTypes';
 
 const initialState = {
-  user: {},
   token: '',
   expiresIn: 0,
   loginState: LOGIN_TYPES.UN_VALIDATE
 };
 
-export default (state: TypeAccount = initialState, action: TypeAction) => {
+export default (state: AccountStateInterface = initialState, action: ActionInterface) => {
   switch (action.type) {
   case TYPES.SET_ACCOUNT_LOGIN_STATE:
-    const  { user, token, expiresIn, loginState } = action.payload;
-
+    const  { token, expiresIn, loginState } = action.payload;
     return {
       ...state,
-      user,
       token,
       expiresIn,
       loginState

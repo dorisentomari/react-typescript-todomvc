@@ -1,15 +1,11 @@
 import Axios, { AxiosError, AxiosRequestConfig, AxiosResponse  } from 'axios';
+import { message } from 'antd';
+import { push } from 'connected-react-router';
 import ls from 'local-storage';
 import constant from '../config/constant';
 
 const axiosInstance = Axios.create({
-  baseURL: 'http://localhost:8000',
-  // withCredentials: true,
-  headers: {
-    cookies: {
-      Authorization: ''
-    }
-  }
+  baseURL: 'http://localhost:8000'
 });
 
 axiosInstance.interceptors.request.use((config: AxiosRequestConfig) => {
@@ -20,7 +16,7 @@ axiosInstance.interceptors.request.use((config: AxiosRequestConfig) => {
       return config;
     }
 
-    config.headers.cookies.headers = ls('Authorization');
+    config.headers.authorization = ls('token');
     return config;
   }
   return Promise.reject('URL error');
@@ -32,7 +28,18 @@ axiosInstance.interceptors.request.use((config: AxiosRequestConfig) => {
 axiosInstance.interceptors.response.use((res: AxiosResponse) => {
   return res.data;
 }, (error: AxiosError) => {
-  return Promise.reject(error);
+  if (error.response) {
+    if (error.response.status === 401) {
+      message.error('登录过期，请重新登录');
+      push('/login');
+      localStorage.clear();
+    }
+
+    return Promise.reject(error);
+  }
+
+  message.error('系统超时');
+  return Promise.reject();
 });
 
 export default axiosInstance;
