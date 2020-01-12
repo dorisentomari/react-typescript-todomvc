@@ -6,6 +6,7 @@ const Home: React.FC = props => {
   return (
     <div className='home'>
       <Header/>
+      <h3>HOME PAGE</h3>
     </div>
   );
 };

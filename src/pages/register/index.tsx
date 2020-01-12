@@ -2,25 +2,35 @@ import React  from 'react';
 import { Link } from 'react-router-dom';
 import { Form, Input, Icon, Button, message } from 'antd';
 import { FormComponentProps } from 'antd/es/form';
+import { RouteComponentProps } from 'react-router';
 import AccountForm from 'src/forms/account';
 import Header from 'src/components/Header';
-import { RegisterHttp } from '../../http/authorization.http';
-import { RegisterParamsInterface } from '../../interfaces/http/authorization.interface';
+import { RegisterHttp } from 'src/http/authorization.http';
+import { RegisterParamsInterface } from 'src/interfaces/http/authorization.interface';
 
-interface Props extends FormComponentProps {
+
+interface Params {
 }
+
+type RouteProps = RouteComponentProps<Params>;
+type Props = RouteProps & FormComponentProps;
 
 const Register: React.FC<Props> = (props) => {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    props.form.validateFields(async (err, values: RegisterParamsInterface) => {
+    props.form.validateFields((err, values: RegisterParamsInterface) => {
       if (err) {
         message.warning('表单填写错误');
+        return false;
       }
-      console.log(values);
-      const token = await RegisterHttp(values);
-      console.log(token);
+      RegisterHttp(values).then(() => {
+        message.success('注册成功');
+        props.history.push('/login');
+      }).catch(err => {
+        console.log(err.response);
+        message.error(err.response.data.message);
+      });
     });
   };
 
