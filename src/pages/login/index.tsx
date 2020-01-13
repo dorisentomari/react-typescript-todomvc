@@ -4,52 +4,31 @@ import { FormComponentProps } from 'antd/es/form';
 import { RouteComponentProps } from 'react-router';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import ls from 'local-storage';
 
 import Header from 'src/components/Header';
-import { LoginHttp } from 'src/http/authorization.http';
 import AccountAction from 'src/store/actions/account.action';
 import AccountForm from 'src/forms/account';
-import errorHandler from '../../helpers/errorHandler';
-
-import { JwtTokenInterface } from 'src/interfaces/http/authorization.interface';
 import { TypeRootStateInterface } from 'src/store/reducers/';
-import { AccountLoginParamsInterface, LOGIN_TYPES } from '../../interfaces/store/reducers.interface';
-import { Dispatch } from 'redux';
+import { AccountLoginParamsInterface } from 'src/interfaces/forms/account.interface';
 
-interface IParams {
-}
-
+interface IParams {}
 type StateProps = ReturnType<typeof mapStateToProps>
-type DispatchProps = ReturnType<typeof mapDispatchToProps>;
+type DispatchProps = typeof AccountAction;
 type RouteProps = RouteComponentProps<IParams>;
-type Props = StateProps & DispatchProps & RouteProps & FormComponentProps;
+type Props = StateProps & DispatchProps & RouteProps & FormComponentProps & {
+  children?: React.ReactNode;
+};
 
 const Login: React.FC<Props> = (props) => {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    props.form.validateFields((err, values) => {
+    props.form.validateFields((err, values: AccountLoginParamsInterface) => {
       if (err) {
         message.warning('表单填写错误');
         return false;
       }
-
-      LoginHttp(values).then((res: JwtTokenInterface) => {
-        const { token, expiresIn }  = res.data;
-        const params: AccountLoginParamsInterface = {
-          token,
-          expiresIn,
-          loginState: LOGIN_TYPES.LOGIN
-        };
-        ls('token', token);
-        ls('expiresIn', expiresIn);
-        props.userLoginDispatch(params);
-        props.history.push('/');
-        message.success('登录成功');
-      }).catch((err) => {
-        errorHandler.httpError(err);
-      });
+      props.userLogin(values);
     });
   };
 
@@ -97,12 +76,7 @@ const Login: React.FC<Props> = (props) => {
 
 const mapStateToProps = (state: TypeRootStateInterface): TypeRootStateInterface  => state;
 
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  userLoginDispatch(params: AccountLoginParamsInterface) {
-    return dispatch(AccountAction.userLogin(params));
-  }
-});
 
 const FormLogin = Form.create({ name: 'login' })(Login);
 
-export default connect(mapStateToProps, mapDispatchToProps)(FormLogin);
+export default connect(mapStateToProps, AccountAction)(FormLogin);

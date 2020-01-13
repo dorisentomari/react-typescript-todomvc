@@ -1,33 +1,27 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Switch, Route, BrowserRouter as Router } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import { PersistGate } from 'redux-persist/integration/react';
+import { ConnectedRouter } from 'connected-react-router';
 
-import routes from './routes';
-import storeFn from './store';
-import NotFound from './pages/notFound';
-
+import store from './store';
+import history from './store/history';
 import 'src/assets/style/global.scss';
+import AuthRoute from './helpers/AuthRoute';
 
-const { store, persistor } = storeFn();
+import Home from './pages/home';
+import Login from './pages/login';
+import Register from './pages/register';
 
 ReactDOM.render((
   <Provider store={store}>
-    <PersistGate loading={null} persistor={persistor}>
-      <Router>
-        <Switch>
-          {
-            routes.map(route => (
-              <Route key={route.name}
-                exact={route.exact}
-                path={route.to}
-                component={route.component} />
-            ))
-          }
-          <Route component={NotFound} />
-        </Switch>
-      </Router>
-    </PersistGate>
+    <ConnectedRouter history={history}>
+      <Switch>
+        <AuthRoute component={Home} path={'/'} exact={true} />
+        <Route path='/login' component={Login} exact={true} />
+        <Route path='/register' component={Register} exact={true} />
+        <Route component={Home} />
+      </Switch>
+    </ConnectedRouter>
   </Provider>
 ), document.getElementById('root'));
