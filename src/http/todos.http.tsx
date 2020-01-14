@@ -1,7 +1,6 @@
 import axiosInstance from './index';
 import {
   TodosCreateUpdateInterface,
-  TodosInterface,
   TodosUpdatePathParamsInterface
 } from '../interfaces/http/todos.interface';
 

@@ -24,11 +24,11 @@ const Register: React.FC<Props> = (props) => {
     event.preventDefault();
     props.form.validateFields((err, values: RegisterParamsInterface) => {
       if (err) {
-        message.warning('表单填写错误');
+        message.warning('fill form error');
         return false;
       }
       RegisterHttp(values).then(() => {
-        message.success('注册成功');
+        message.success('register success');
         props.history.push('/login');
       }).catch(err => {
         errorHandler.httpError(err);

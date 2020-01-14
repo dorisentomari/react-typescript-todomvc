@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Checkbox, Form, Icon, Input, message } from 'antd';
+import { Button, Form, Icon, Input, message } from 'antd';
 import { FormComponentProps } from 'antd/es/form';
 import { RouteComponentProps } from 'react-router';
 import { Link } from 'react-router-dom';
@@ -25,7 +25,7 @@ const Login: React.FC<Props> = (props) => {
     event.preventDefault();
     props.form.validateFields((err, values: AccountLoginParamsInterface) => {
       if (err) {
-        message.warning('表单填写错误');
+        message.warning('fill form error');
         return false;
       }
       props.userLogin(values);
@@ -59,11 +59,7 @@ const Login: React.FC<Props> = (props) => {
             />,
           )}
         </Form.Item>
-        <Form.Item>
-          {getFieldDecorator('remember', {
-            valuePropName: 'checked',
-            initialValue: true
-          })(<Checkbox>remember me</Checkbox>)}
+        <Form.Item className='flex-center'>
           <Button type='primary' htmlType='submit'>
             login
           </Button>

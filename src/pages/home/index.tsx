@@ -5,6 +5,7 @@ import { RouteComponentProps } from 'react-router';
 import './index.scss';
 import Header from 'src/components/Header';
 import { TodosInterface } from 'src/interfaces/http/todos.interface';
+import { TodosListGetHttp } from '../../http/todos.http';
 
 interface IParams {
 }
@@ -22,6 +23,17 @@ class HomeComponent extends React.Component<Props, State> {
     this.state = {
       todosList: []
     };
+  }
+
+  componentDidMount(): void {
+    try {
+      TodosListGetHttp().then(res => {
+        console.log(res);
+      });
+    }catch (e) {
+      console.log(e);
+      console.log(e.message);
+    }
   }
 
   todoFinish= (todo: TodosInterface) => {

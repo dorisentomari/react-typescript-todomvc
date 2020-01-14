@@ -1,8 +1,8 @@
 import Axios, { AxiosError, AxiosRequestConfig, AxiosResponse  } from 'axios';
 import { message } from 'antd';
-import { push } from 'connected-react-router';
 import ls from 'local-storage';
 import constant from '../config/constant';
+import history from '../store/history';
 
 const axiosInstance = Axios.create({
   baseURL: 'http://localhost:8000'
@@ -31,7 +31,7 @@ axiosInstance.interceptors.response.use((res: AxiosResponse) => {
   if (error.response) {
     if (error.response.status === 401) {
       message.error('登录过期，请重新登录');
-      push('/login');
+      history.push('/login');
       localStorage.clear();
     }
 
