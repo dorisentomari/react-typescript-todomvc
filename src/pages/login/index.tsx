@@ -9,7 +9,7 @@ import Header from 'src/components/Header';
 import AccountAction from 'src/store/actions/account.action';
 import AccountForm from 'src/forms/account';
 import { TypeRootStateInterface } from 'src/store/reducers/';
-import { AccountLoginParamsInterface } from 'src/interfaces/forms/account.interface';
+import { AccountLoginParamsInterface } from 'src/interfaces/http';
 
 interface IParams {}
 type StateProps = ReturnType<typeof mapStateToProps>

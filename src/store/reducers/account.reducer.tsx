@@ -1,5 +1,4 @@
-import {  AccountStateInterface } from 'src/interfaces/store/reducers.interface';
-import { ActionInterface } from 'src/interfaces/store/actions.interface';
+import { AccountStateInterface, ActionInterface } from 'src/interfaces/store';
 
 const initialState = {
 

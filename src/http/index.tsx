@@ -43,3 +43,6 @@ axiosInstance.interceptors.response.use((res: AxiosResponse) => {
 });
 
 export default axiosInstance;
+
+export * from './authorization.http';
+export * from './todos.http';

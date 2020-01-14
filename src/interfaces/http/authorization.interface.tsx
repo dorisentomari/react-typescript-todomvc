@@ -1,9 +1,9 @@
-export interface LoginParamsInterface {
+export interface AccountLoginParamsInterface {
   email: string;
   password: string;
 }
 
-export interface RegisterParamsInterface {
+export interface AccountRegisterParamsInterface {
   email: string;
   password: string;
   rePassword: string;

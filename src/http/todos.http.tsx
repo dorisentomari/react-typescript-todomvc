@@ -2,7 +2,7 @@ import axiosInstance from './index';
 import {
   TodosCreateUpdateInterface,
   TodosUpdatePathParamsInterface
-} from '../interfaces/http/todos.interface';
+} from 'src/interfaces/http';
 
 
 export const TodosCreateHttp = async (bodyParams: TodosCreateUpdateInterface) => {

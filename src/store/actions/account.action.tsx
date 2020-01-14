@@ -5,9 +5,9 @@ import { AxiosError } from 'axios';
 import { Dispatch } from 'redux';
 import { push } from 'connected-react-router';
 
-import { TypeThunkFunction } from '../../interfaces/store/actions.interface';
-import { TypeAnyObject } from '../../interfaces/store/actions.interface';
-import { AccountLoginParamsInterface } from '../../interfaces/forms/account.interface';
+import { TypeThunkFunction } from 'src/interfaces/store';
+import { TypeAnyObject } from 'src/interfaces/store';
+import { AccountLoginParamsInterface } from 'src/interfaces/http';
 import { LoginHttp } from '../../http/authorization.http';
 
 const AccountAction = {

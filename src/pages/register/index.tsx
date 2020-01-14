@@ -9,8 +9,7 @@ import AccountForm from 'src/forms/account';
 import errorHandler from '../../helpers/errorHandler';
 import { RegisterHttp } from 'src/http/authorization.http';
 
-import { RegisterParamsInterface } from 'src/interfaces/http/authorization.interface';
-
+import { AccountRegisterParamsInterface } from 'src/interfaces/http';
 
 interface Params {
 }
@@ -22,7 +21,7 @@ const Register: React.FC<Props> = (props) => {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    props.form.validateFields((err, values: RegisterParamsInterface) => {
+    props.form.validateFields((err, values: AccountRegisterParamsInterface) => {
       if (err) {
         message.warning('fill form error');
         return false;

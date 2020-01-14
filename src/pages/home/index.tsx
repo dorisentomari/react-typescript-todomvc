@@ -1,9 +1,10 @@
 import React  from 'react';
-import { List, Button, Row, Col } from 'antd';
+import { List, Button, Row, Col, Modal } from 'antd';
 import { RouteComponentProps } from 'react-router';
 
 import './index.scss';
 import Header from 'src/components/Header';
+import Todo from 'src/components/Todo';
 import { TodosInterface } from 'src/interfaces/http/todos.interface';
 import { TodosListGetHttp } from '../../http/todos.http';
 
@@ -13,6 +14,8 @@ interface IParams {
 type Props = RouteComponentProps<IParams>;
 interface State {
   todosList: Array<TodosInterface>;
+  visible: boolean;
+  todoTitle: string;
 }
 
 class HomeComponent extends React.Component<Props, State> {
@@ -21,7 +24,9 @@ class HomeComponent extends React.Component<Props, State> {
     super(props);
 
     this.state = {
-      todosList: []
+      todosList: [],
+      visible: false,
+      todoTitle: '添加 TODO'
     };
   }
 
@@ -46,10 +51,33 @@ class HomeComponent extends React.Component<Props, State> {
     console.log('todoDelete');
   };
 
+  todoInfoOk = () => {
+    console.log('todoInfoOk');
+    this.setState({
+      visible: false
+    });
+  };
+
+  todoInfoCancel = () => {
+    console.log('todoInfoCancel');
+    this.setState({
+      visible: false
+    });
+  };
+
+  addTodo = ()=> {
+    console.log('addTodo');
+    this.setState({
+      visible: true,
+      todoTitle: '添加 TODO'
+    });
+  };
+
   render () {
     return (
       <div className='home'>
         <Header/>
+        <Button onClick={() => this.addTodo()}>添加 TODO</Button>
         <Row gutter={16}>
           <Col span={6}/>
           <Col span={12}>
@@ -76,6 +104,16 @@ class HomeComponent extends React.Component<Props, State> {
           </Col>
           <Col span={6}/>
         </Row>
+
+        <Modal
+          title={this.state.todoTitle}
+          visible={this.state.visible}
+          onOk={this.todoInfoOk}
+          onCancel={this.todoInfoCancel}
+        >
+          <Todo/>
+        </Modal>
+
       </div>
     );
   }
