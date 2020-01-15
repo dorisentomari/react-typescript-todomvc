@@ -1,10 +1,10 @@
 import React  from 'react';
 import { List, Button, Row, Col, Modal } from 'antd';
 import { RouteComponentProps } from 'react-router';
-
+import { TodosCreateUpdateInterface } from '../../interfaces/http';
 import './index.scss';
 import Header from 'src/components/Header';
-import Todo from 'src/components/Todo';
+import TodoComponent from 'src/components/Todo';
 import { TodosInterface } from 'src/interfaces/http/todos.interface';
 import { TodosListGetHttp } from '../../http';
 
@@ -51,21 +51,21 @@ class HomeComponent extends React.Component<Props, State> {
     console.log('todoDelete');
   };
 
-  todoInfoOk = () => {
+  todoModalOk = () => {
     console.log('todoInfoOk');
     this.setState({
       visible: false
     });
   };
 
-  todoInfoCancel = () => {
+  todoModalCancel = () => {
     console.log('todoInfoCancel');
     this.setState({
       visible: false
     });
   };
 
-  addTodo = ()=> {
+  addTodoModal = ()=> {
     console.log('addTodo');
     this.setState({
       visible: true,
@@ -73,45 +73,64 @@ class HomeComponent extends React.Component<Props, State> {
     });
   };
 
+  todoComponentSubmit = (values: TodosCreateUpdateInterface) => {
+    console.log('todoComponentSubmit');
+    console.log(values);
+  };
+
+  todoComponentCancel = () => {
+    console.log('todoComponentCancel');
+  };
+
   render () {
     return (
       <div className='home'>
-        <Header/>
-        <Button onClick={() => this.addTodo()}>添加 TODO</Button>
-        <Row gutter={16}>
-          <Col span={6}/>
-          <Col span={12}>
-            <List
-              itemLayout='horizontal'
-              dataSource={this.state.todosList}
-              renderItem={todo => (
-                <List.Item
-                  actions={
-                    [
-                      <Button size='small' type='primary' onClick={() => console.log(todo)}>完成</Button>,
-                      <Button size='small' type='default' onClick={() => console.log(todo)}>修改</Button>,
-                      <Button size='small' type='danger' onClick={() => console.log(todo)}>删除</Button>
-                    ]
-                  }
-                >
-                  <List.Item.Meta
-                    title={todo.content}
-                    description={todo.remark}
-                  />
-                </List.Item>
-              )}
-            />
-          </Col>
-          <Col span={6}/>
-        </Row>
+        <div className='header'>
+          <Header/>
+        </div>
+        <div className='actions'>
+          <Button onClick={() => this.addTodoModal()}>添加 TODO</Button>
+        </div>
+        <section className='list'>
+          <Row gutter={16}>
+            <Col span={6}/>
+            <Col span={12}>
+              <List
+                itemLayout='horizontal'
+                dataSource={this.state.todosList}
+                renderItem={todo => (
+                  <List.Item
+                    actions={
+                      [
+                        <Button size='small' type='primary' onClick={() => console.log(todo)}>完成</Button>,
+                        <Button size='small' type='default' onClick={() => console.log(todo)}>修改</Button>,
+                        <Button size='small' type='danger' onClick={() => console.log(todo)}>删除</Button>
+                      ]
+                    }
+                  >
+                    <List.Item.Meta
+                      title={todo.content}
+                      description={todo.remark}
+                    />
+                  </List.Item>
+                )}
+              />
+            </Col>
+            <Col span={6}/>
+          </Row>
+        </section>
 
         <Modal
           title={this.state.todoTitle}
           visible={this.state.visible}
-          onOk={this.todoInfoOk}
-          onCancel={this.todoInfoCancel}
+          onOk={this.todoModalOk}
+          onCancel={this.todoModalCancel}
+          footer={null}
         >
-          <Todo/>
+          <TodoComponent
+            onSubmit={(values) => this.todoComponentSubmit(values)}
+            onCancel={() => this.todoComponentCancel()}
+          />
         </Modal>
 
       </div>

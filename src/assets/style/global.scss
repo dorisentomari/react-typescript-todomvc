@@ -31,8 +31,39 @@ body {
   border-bottom: 1px solid #9a9a9a;
 }
 
-.flex-center {
+.flex {
   display: flex;
+}
+
+.flex-center {
+  @extend .flex;
   justify-content: center;
 }
 
+.flex-end {
+  @extend .flex;
+  justify-content: flex-end;
+}
+
+@for $i from 1 through 30 {
+  .m-#{$i} {
+    margin: $i * 1em;
+  }
+
+  .mt-#{$i} {
+    margin-top: $i * 1em;
+  }
+
+  .mr-#{$i} {
+    margin-right: $i * 1em;
+  }
+
+  .mb-#{$i} {
+    margin-bottom: $i * 1em;
+  }
+
+  .ml-#{$i} {
+    margin-left: $i * 1em;
+  }
+
+}
