@@ -6,7 +6,7 @@ import './index.scss';
 import Header from 'src/components/Header';
 import Todo from 'src/components/Todo';
 import { TodosInterface } from 'src/interfaces/http/todos.interface';
-import { TodosListGetHttp } from '../../http/todos.http';
+import { TodosListGetHttp } from '../../http';
 
 interface IParams {
 }

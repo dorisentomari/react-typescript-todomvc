@@ -6,4 +6,4 @@
 //
 //   };
 // };
-export default {}
+export default {};
