@@ -1,14 +1,15 @@
 import ls from 'local-storage';
-
-import { message } from 'antd';
 import { AxiosError } from 'axios';
 import { Dispatch } from 'redux';
 import { push } from 'connected-react-router';
 
+import errorHandler from 'src/helpers/errorHandler';
+
+import { LoginHttp } from 'src/http';
+
 import { TypeThunkFunction } from 'src/interfaces/store';
 import { TypeAnyObject } from 'src/interfaces/store';
 import { AccountLoginParamsInterface } from 'src/interfaces/http';
-import { LoginHttp } from '../../http';
 
 const AccountAction = {
   userLogin(values: AccountLoginParamsInterface): TypeThunkFunction {
@@ -19,9 +20,7 @@ const AccountAction = {
         ls('expiresIn', expiresIn);
         return dispatch(push('/'));
       }).catch((error: AxiosError) => {
-        if (error.response) {
-          message.error(error.response.data);
-        }
+        errorHandler.httpError(error);
       });
     };
   }

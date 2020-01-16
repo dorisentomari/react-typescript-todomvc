@@ -3,8 +3,8 @@ import { message } from 'antd';
 import * as TYPES from '../actionTypes';
 
 import { TypeThunkFunction } from 'src/interfaces/store';
-import { TodosFormCreateInterface } from '../../interfaces/http';
-import { TodosCreateHttp } from '../../http';
+import { TodosFormCreateInterface } from 'src/interfaces/http';
+import { TodosCreateHttp } from 'src/http';
 
 const HomeAction = {
   createTodo(todo: TodosFormCreateInterface): TypeThunkFunction {

@@ -1,13 +1,16 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { RouteComponentProps } from 'react-router';
 import { Button, Form, Icon, Input, message } from 'antd';
 import { FormComponentProps } from 'antd/es/form';
-import { RouteComponentProps } from 'react-router';
-import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
 
 import Header from 'src/components/Header';
-import AccountAction from 'src/store/actions/account.action';
+
 import AccountForm from 'src/forms/account';
+
+import AccountAction from 'src/store/actions/account.action';
+
 import { TypeRootStateInterface } from 'src/store/reducers/';
 import { AccountLoginParamsInterface } from 'src/interfaces/http';
 

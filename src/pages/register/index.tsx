@@ -1,12 +1,14 @@
 import React  from 'react';
 import { Link } from 'react-router-dom';
+import { RouteComponentProps } from 'react-router';
 import { Form, Input, Icon, Button, message } from 'antd';
 import { FormComponentProps } from 'antd/es/form';
-import { RouteComponentProps } from 'react-router';
 
 import Header from 'src/components/Header';
+
 import AccountForm from 'src/forms/account';
-import errorHandler from '../../helpers/errorHandler';
+import errorHandler from 'src/helpers/errorHandler';
+
 import { RegisterHttp } from 'src/http/authorization.http';
 
 import { AccountRegisterParamsInterface } from 'src/interfaces/http';

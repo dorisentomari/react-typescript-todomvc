@@ -1,20 +1,27 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Button, Col, List, message, Modal, Row, Pagination } from 'antd';
 import { RouteComponentProps } from 'react-router';
+import { Button, Col, List, message, Modal, Row, Pagination } from 'antd';
+import './index.scss';
+
+import Header from 'src/components/Header';
+import TodoComponent from 'src/components/Todo';
+
+import errorHandler from 'src/helpers/errorHandler';
+
+import { TodosDeleteHttp, TodosListGetHttp } from 'src/http';
+
 import HomeAction from 'src/store/actions/home.action';
+
 import {
   TodosFormCreateInterface,
   TodosFormUpdateDeleteInterface,
   TodoStatusInterface
-} from '../../interfaces/http';
-import constant from '../../config/constant';
+} from 'src/interfaces/http';
+import { TypeRootStateInterface } from 'src/store/reducers';
 import { PaginationInterface } from 'src/interfaces/commom/pagination.interface';
-import './index.scss';
-import Header from 'src/components/Header';
-import TodoComponent from 'src/components/Todo';
-import { TodosDeleteHttp, TodosListGetHttp } from '../../http';
-import { TypeRootStateInterface } from '../../store/reducers';
+
+import constant from 'src/config/constant';
 
 const { confirm } = Modal;
 
@@ -80,30 +87,66 @@ class HomeComponent extends React.Component<Props, State> {
       });
     }
 
-    try {
-      TodosListGetHttp({ page, pageSize: this.state.page.pageSize }).then((res: any) => {
-        if (res.data.length === 0) {
-          message.warning('find result is empty');
-          this.setState({
-            todosList: []
-          });
-          return false;
-        }
+    TodosListGetHttp({ page, pageSize: this.state.page.pageSize }).then((res: any) => {
+      if (res.data.length === 0) {
+        message.warning('find result is empty');
         this.setState({
-          todosList: res.data
+          todosList: []
         });
-        const profile = res.profile;
-        this.setState({
-          page: {
-            pageSize: profile.pageSize,
-            total: profile.total
-          }
-        });
+        return false;
+      }
+      this.setState({
+        todosList: res.data
       });
-    }catch (e) {
-      console.log(e);
-      console.log(e.message);
-    }
+      const profile = res.profile;
+      this.setState({
+        page: {
+          pageSize: profile.pageSize,
+          total: profile.total
+        }
+      });
+    }).catch(err => {
+      errorHandler.httpError(err);
+    });
+  };
+
+  todoCreate = (values: TodosFormCreateInterface) => {
+    (async () => {
+      await this.props.createTodo(values);
+      this.setState({
+        visible: false
+      });
+      this.getTodoList();
+      this.setState({
+        currentCreateTodo: {
+          content: '',
+          remark:''
+        }
+      });
+    })();
+  };
+
+  todoCreateCancel = () => {
+    this.setState({
+      visible: false
+    });
+  };
+
+  todoDelete = (todo: TodosFormUpdateDeleteInterface) => {
+    confirm({
+      title: 'Do you want to delete this todo?',
+      onOk: () => {
+        TodosDeleteHttp({ _id: todo._id }).then(() => {
+          this.getTodoList();
+          message.success('delete success');
+        }).catch(err => {
+          errorHandler.httpError(err);
+        });
+      },
+      onCancel() {
+        message.warning('you canceled');
+      },
+    });
   };
 
   todoFinish= (todo: TodosFormUpdateDeleteInterface) => {
@@ -112,25 +155,6 @@ class HomeComponent extends React.Component<Props, State> {
 
   todoUpdate = (todo: TodosFormUpdateDeleteInterface) => {
     console.log('todoUpdate');
-  };
-
-  todoDelete = (todo: TodosFormUpdateDeleteInterface) => {
-    console.log('todoDelete');
-    confirm({
-      title: 'Do you want to delete this todo?',
-      onOk: () => {
-        TodosDeleteHttp({ _id: todo._id }).then(() => {
-          this.getTodoList();
-          message.success('delete success');
-        }).catch(err => {
-          console.log(err);
-          message.error(err.response.data.message);
-        });
-      },
-      onCancel() {
-        message.warning('you canceled');
-      },
-    });
   };
 
   todoModalOk = () => {
@@ -145,25 +169,11 @@ class HomeComponent extends React.Component<Props, State> {
     });
   };
 
-  addTodoModal = ()=> {
+  showCreateTodoModal = ()=> {
     this.setState({
       visible: true,
       todoTitle: '添加 TODO'
     });
-  };
-
-  todoComponentSubmit = (values: TodosFormCreateInterface) => {
-    (async () => {
-      await this.props.createTodo(values);
-      this.setState({
-        visible: false
-      });
-      this.getTodoList();
-    })();
-  };
-
-  todoComponentCancel = () => {
-    console.log('todoComponentCancel');
   };
 
   render () {
@@ -173,7 +183,7 @@ class HomeComponent extends React.Component<Props, State> {
           <Header/>
         </div>
         <div className='actions'>
-          <Button onClick={() => this.addTodoModal()}>添加 TODO</Button>
+          <Button onClick={() => this.showCreateTodoModal()}>添加 TODO</Button>
         </div>
         <section className='list'>
           <Row gutter={16}>
@@ -186,7 +196,7 @@ class HomeComponent extends React.Component<Props, State> {
                   <List.Item
                     actions={
                       [
-                        <Button size='small' type='primary' onClick={() => this.todoFinish(todo)}>完成</Button>,
+                        <Button size='small' type='primary' onClick={() => this.todoFinish(todo)}>标记完成</Button>,
                         <Button size='small' type='default' onClick={() => this.todoUpdate(todo)}>修改</Button>,
                         <Button size='small' type='danger' onClick={() => this.todoDelete(todo)}>删除</Button>
                       ]
@@ -219,8 +229,8 @@ class HomeComponent extends React.Component<Props, State> {
         >
           <TodoComponent
             defaultFormValues={this.state.currentTodo}
-            onSubmit={(values) => this.todoComponentSubmit(values)}
-            onCancel={() => this.todoComponentCancel()}
+            onSubmit={(values) => this.todoCreate(values)}
+            onCancel={() => this.todoCreateCancel()}
           />
         </Modal>
 

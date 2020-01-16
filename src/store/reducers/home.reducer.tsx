@@ -1,6 +1,6 @@
 import * as TYPES from '../actionTypes';
 import { HomeStateInterface, ActionInterface } from 'src/interfaces/store';
-import { TodoStatusInterface } from '../../interfaces/http';
+import { TodoStatusInterface } from 'src/interfaces/http';
 
 const initialState = {
   currentTodo: {

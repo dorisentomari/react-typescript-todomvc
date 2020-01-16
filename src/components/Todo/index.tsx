@@ -1,7 +1,7 @@
 import React from 'react';
 import { Form, Icon, Input, message, Button } from 'antd';
 import { FormComponentProps } from 'antd/es/form';
-import { TodosFormCreateInterface } from '../../interfaces/http';
+import { TodosFormCreateInterface } from 'src/interfaces/http';
 
 type RenderType = React.ReactElement<any, string | React.JSXElementConstructor<any>> | string | number | {} | React.ReactNodeArray | React.ReactPortal | boolean | null | undefined;
 
