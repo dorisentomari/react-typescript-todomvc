@@ -6,9 +6,10 @@
 body {
   width: 100%;
   background-color: antiquewhite;
+  overflow-x: hidden;
 }
 
-.c-header {
+.header {
   margin-bottom: 10px;
 
   .title {

@@ -5,7 +5,8 @@ export interface TodoListQueryInterface {
 
 export enum TodoStatusInterface {
   PENDING = 'PENDING',
-  FINISHED = 'FINISHED'
+  FINISHED = 'FINISHED',
+  DELETED = 'DELETED'
 }
 
 export interface TodosFormCreateInterface {

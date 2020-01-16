@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
-import { Button, Col, List, message, Modal, Row, Pagination } from 'antd';
+import { Button, Col, List, message, Modal, Row, Pagination, Tabs } from 'antd';
 import './index.scss';
 
 import Header from 'src/components/Header';
@@ -24,6 +24,7 @@ import { PaginationInterface } from 'src/interfaces/commom/pagination.interface'
 import constant from 'src/config/constant';
 
 const { confirm } = Modal;
+const { TabPane } = Tabs;
 
 interface IParams {
 }
@@ -188,34 +189,44 @@ class HomeComponent extends React.Component<Props, State> {
         <section className='list'>
           <Row gutter={16}>
             <Col span={6}/>
-            <Col span={12}>
-              <List
-                itemLayout='horizontal'
-                dataSource={this.state.todosList}
-                renderItem={todo => (
-                  <List.Item
-                    actions={
-                      [
-                        <Button size='small' type='primary' onClick={() => this.todoFinish(todo)}>标记完成</Button>,
-                        <Button size='small' type='default' onClick={() => this.todoUpdate(todo)}>修改</Button>,
-                        <Button size='small' type='danger' onClick={() => this.todoDelete(todo)}>删除</Button>
-                      ]
-                    }
-                  >
-                    <List.Item.Meta
-                      title={todo.content}
-                      description={todo.remark}
-                    />
-                  </List.Item>
-                )}
-              />
-              <Pagination className='flex-center'
-                current={this.state.currentPage}
-                onChange={(page) => this.getTodoList(page)}
-                total={this.state.page.total}
-                pageSize={this.state.page.pageSize}
-              />
-            </Col>
+            <Tabs defaultActiveKey='1'>
+              <TabPane tab='未完成' key='1'>
+                <Col span={12}>
+                  <List
+                    itemLayout='horizontal'
+                    dataSource={this.state.todosList}
+                    renderItem={todo => (
+                      <List.Item
+                        actions={
+                          [
+                            <Button size='small' type='primary' onClick={() => this.todoFinish(todo)}>标记完成</Button>,
+                            <Button size='small' type='default' onClick={() => this.todoUpdate(todo)}>修改</Button>,
+                            <Button size='small' type='danger' onClick={() => this.todoDelete(todo)}>删除</Button>
+                          ]
+                        }
+                      >
+                        <List.Item.Meta
+                          title={todo.content}
+                          description={todo.remark}
+                        />
+                      </List.Item>
+                    )}
+                  />
+                  <Pagination className='flex-center'
+                    current={this.state.currentPage}
+                    onChange={(page) => this.getTodoList(page)}
+                    total={this.state.page.total}
+                    pageSize={this.state.page.pageSize}
+                  />
+                </Col>
+              </TabPane>
+              <TabPane tab='已完成' key='2'>
+                这里是已完成的列表
+              </TabPane>
+              <TabPane tab='已删除' key='3'>
+                这里是已删除的列表
+              </TabPane>
+            </Tabs>
             <Col span={6}/>
           </Row>
         </section>
