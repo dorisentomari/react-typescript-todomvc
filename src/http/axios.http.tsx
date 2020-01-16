@@ -30,7 +30,7 @@ axios.interceptors.response.use((res: AxiosResponse) => {
 }, (error: AxiosError) => {
   if (error.response) {
     if (error.response.status === 401) {
-      message.error('登录过期，请重新登录');
+      message.error('login expired, please login again');
       history.push('/login');
       localStorage.clear();
     }
@@ -38,7 +38,7 @@ axios.interceptors.response.use((res: AxiosResponse) => {
     return Promise.reject(error);
   }
 
-  message.error('系统超时');
+  message.error('system timeout');
   return Promise.reject();
 });
 

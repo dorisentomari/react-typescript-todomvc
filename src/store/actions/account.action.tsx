@@ -8,7 +8,7 @@ import { push } from 'connected-react-router';
 import { TypeThunkFunction } from 'src/interfaces/store';
 import { TypeAnyObject } from 'src/interfaces/store';
 import { AccountLoginParamsInterface } from 'src/interfaces/http';
-import { LoginHttp } from '../../http/authorization.http';
+import { LoginHttp } from '../../http';
 
 const AccountAction = {
   userLogin(values: AccountLoginParamsInterface): TypeThunkFunction {

@@ -1,22 +1,32 @@
 import React  from 'react';
+import { connect } from 'react-redux';
 import { List, Button, Row, Col, Modal } from 'antd';
 import { RouteComponentProps } from 'react-router';
-import { TodosCreateUpdateInterface } from '../../interfaces/http';
+import HomeAction from 'src/store/actions/home.action';
+import { TodosFormInterface, TodoStatusInterface } from '../../interfaces/http';
 import './index.scss';
 import Header from 'src/components/Header';
 import TodoComponent from 'src/components/Todo';
-import { TodosInterface } from 'src/interfaces/http/todos.interface';
 import { TodosListGetHttp } from '../../http';
+import { TypeRootStateInterface } from '../../store/reducers';
 
 interface IParams {
 }
 
-type Props = RouteComponentProps<IParams>;
+interface IParams {}
+type StateProps = ReturnType<typeof mapStateToProps>
+type DispatchProps = typeof HomeAction;
+type RouteProps = RouteComponentProps<IParams>;
 interface State {
-  todosList: Array<TodosInterface>;
+  todosList: Array<TodosFormInterface>;
   visible: boolean;
   todoTitle: string;
+  currentTodo: TodosFormInterface;
 }
+
+type Props = StateProps & DispatchProps & RouteProps & {
+  children?: React.ReactNode;
+};
 
 class HomeComponent extends React.Component<Props, State> {
 
@@ -26,7 +36,14 @@ class HomeComponent extends React.Component<Props, State> {
     this.state = {
       todosList: [],
       visible: false,
-      todoTitle: '添加 TODO'
+      todoTitle: '添加 TODO',
+      currentTodo: {
+        id: '',
+        content: '',
+        remark:'',
+        createTime: '',
+        status: TodoStatusInterface.PENDING,
+      }
     };
   }
 
@@ -34,6 +51,9 @@ class HomeComponent extends React.Component<Props, State> {
     try {
       TodosListGetHttp().then(res => {
         console.log(res);
+        this.setState({
+          todosList: res.data
+        });
       });
     }catch (e) {
       console.log(e);
@@ -41,41 +61,43 @@ class HomeComponent extends React.Component<Props, State> {
     }
   }
 
-  todoFinish= (todo: TodosInterface) => {
+  todoFinish= (todo: TodosFormInterface) => {
     console.log('todoFinish');
   };
-  todoUpdate = (todo: TodosInterface) => {
+  todoUpdate = (todo: TodosFormInterface) => {
     console.log('todoUpdate');
   };
-  todoDelete = (todo: TodosInterface) => {
+  todoDelete = (todo: TodosFormInterface) => {
     console.log('todoDelete');
   };
 
   todoModalOk = () => {
-    console.log('todoInfoOk');
     this.setState({
       visible: false
     });
   };
 
   todoModalCancel = () => {
-    console.log('todoInfoCancel');
     this.setState({
       visible: false
     });
   };
 
   addTodoModal = ()=> {
-    console.log('addTodo');
     this.setState({
       visible: true,
       todoTitle: '添加 TODO'
     });
   };
 
-  todoComponentSubmit = (values: TodosCreateUpdateInterface) => {
-    console.log('todoComponentSubmit');
-    console.log(values);
+  todoComponentSubmit = (values: TodosFormInterface) => {
+    (async () => {
+      await this.props.createTodo(values);
+      this.setState({
+        visible: false
+      });
+    })();
+
   };
 
   todoComponentCancel = () => {
@@ -102,9 +124,9 @@ class HomeComponent extends React.Component<Props, State> {
                   <List.Item
                     actions={
                       [
-                        <Button size='small' type='primary' onClick={() => console.log(todo)}>完成</Button>,
-                        <Button size='small' type='default' onClick={() => console.log(todo)}>修改</Button>,
-                        <Button size='small' type='danger' onClick={() => console.log(todo)}>删除</Button>
+                        <Button size='small' type='primary' onClick={() => this.todoFinish(todo)}>完成</Button>,
+                        <Button size='small' type='default' onClick={() => this.todoUpdate(todo)}>修改</Button>,
+                        <Button size='small' type='danger' onClick={() => this.todoDelete(todo)}>删除</Button>
                       ]
                     }
                   >
@@ -128,6 +150,7 @@ class HomeComponent extends React.Component<Props, State> {
           footer={null}
         >
           <TodoComponent
+            defaultFormValues={this.state.currentTodo}
             onSubmit={(values) => this.todoComponentSubmit(values)}
             onCancel={() => this.todoComponentCancel()}
           />
@@ -138,4 +161,6 @@ class HomeComponent extends React.Component<Props, State> {
   }
 }
 
-export default HomeComponent;
+const mapStateToProps = (state: TypeRootStateInterface): TypeRootStateInterface  => state;
+
+export default connect(mapStateToProps, HomeAction)(HomeComponent);

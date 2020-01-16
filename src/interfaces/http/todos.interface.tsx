@@ -1,18 +1,17 @@
-export interface TodosCreateUpdateInterface {
+export enum TodoStatusInterface {
+  PENDING = 'PENDING',
+  FINISHED = 'FINISHED'
+}
+
+export interface TodosFormInterface {
+  id?: string;
   content: string;
   remark?: string;
+  createTime?: string;
+  updateTime?: string;
+  status?: TodoStatusInterface;
 }
 
-export interface TodosUpdatePathParamsInterface {
+export interface TodosUpdatePathInterface {
   id: string;
 }
-
-export interface TodosInterface {
-  id: string;
-  content: string;
-  remark?: string;
-  createTime: string;
-  updateTime: string;
-  status: string;
-}
-

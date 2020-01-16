@@ -1,20 +1,21 @@
 import React from 'react';
 import { Form, Icon, Input, message, Button } from 'antd';
 import { FormComponentProps } from 'antd/es/form';
-import { TodosCreateUpdateInterface } from '../../interfaces/http';
+import { TodosFormInterface } from '../../interfaces/http';
 
 type RenderType = React.ReactElement<any, string | React.JSXElementConstructor<any>> | string | number | {} | React.ReactNodeArray | React.ReactPortal | boolean | null | undefined;
 
 interface TodoProps extends  FormComponentProps {
-  onSubmit: (values: TodosCreateUpdateInterface) => any;
+  onSubmit: (values: TodosFormInterface) => any;
   onCancel: () => any;
+  defaultFormValues: TodosFormInterface;
 }
 
 class TodoComponent extends React.Component<TodoProps>  {
 
   handleSubmit = (event: any) => {
     event.preventDefault();
-    this.props.form.validateFields((err, values: TodosCreateUpdateInterface) => {
+    this.props.form.validateFields((err, values: TodosFormInterface) => {
       if (err) {
         message.warning('fill form error');
         return false;
@@ -34,6 +35,7 @@ class TodoComponent extends React.Component<TodoProps>  {
         <Form.Item label='content'>
           {getFieldDecorator('content', {
             rules: [{ required: true, message: 'Please input content!' }],
+            initialValue: this.props.defaultFormValues.content
           })(
             <Input
               prefix={<Icon type='edit' style={{ color: 'rgba(0,0,0,.25)' }} />}
@@ -43,6 +45,7 @@ class TodoComponent extends React.Component<TodoProps>  {
         <Form.Item label='remark'>
           {getFieldDecorator('remark', {
             rules: [{ required: false, message: 'Please input your remark!' }],
+            initialValue: this.props.defaultFormValues.remark
           })(
             <Input
               prefix={<Icon type='edit' style={{ color: 'rgba(0,0,0,.25)' }} />}

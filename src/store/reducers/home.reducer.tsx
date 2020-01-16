@@ -1,15 +1,14 @@
 import * as TYPES from '../actionTypes';
 import { HomeStateInterface, ActionInterface } from 'src/interfaces/store';
+import { TodoStatusInterface } from '../../interfaces/http';
 
 const initialState = {
-  createTodo: {
+  currentTodo: {
+    id: '',
     content: '',
-    remark: ''
-  },
-  updateTodo: {
-    content: '',
-    remark: '',
-    id: ''
+    remark:'',
+    createTime: '',
+    status: TodoStatusInterface.PENDING,
   }
 };
 
@@ -18,12 +17,12 @@ export default (state: HomeStateInterface = initialState, action: ActionInterfac
   case TYPES.SET_CREATE_TODO:
     return {
       ...state,
-      createTodo: action.payload
+      currentTodo: action.payload
     };
   case TYPES.SET_UPDATE_TODO:
     return {
       ...state,
-      updateTodo: action.payload
+      currentTodo: action.payload
     };
   default:
     return {
