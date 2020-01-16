@@ -1,21 +1,21 @@
 import React from 'react';
 import { Form, Icon, Input, message, Button } from 'antd';
 import { FormComponentProps } from 'antd/es/form';
-import { TodosFormInterface } from '../../interfaces/http';
+import { TodosFormCreateInterface } from '../../interfaces/http';
 
 type RenderType = React.ReactElement<any, string | React.JSXElementConstructor<any>> | string | number | {} | React.ReactNodeArray | React.ReactPortal | boolean | null | undefined;
 
 interface TodoProps extends  FormComponentProps {
-  onSubmit: (values: TodosFormInterface) => any;
+  onSubmit: (values: TodosFormCreateInterface) => any;
   onCancel: () => any;
-  defaultFormValues: TodosFormInterface;
+  defaultFormValues: TodosFormCreateInterface;
 }
 
 class TodoComponent extends React.Component<TodoProps>  {
 
   handleSubmit = (event: any) => {
     event.preventDefault();
-    this.props.form.validateFields((err, values: TodosFormInterface) => {
+    this.props.form.validateFields((err, values: TodosFormCreateInterface) => {
       if (err) {
         message.warning('fill form error');
         return false;

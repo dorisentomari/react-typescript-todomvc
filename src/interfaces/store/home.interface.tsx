@@ -1,5 +1,5 @@
-import { TodosFormInterface } from '../http';
+import { TodosFormCreateInterface } from '../http';
 
 export interface HomeStateInterface {
-  currentTodo: TodosFormInterface;
+  currentTodo: TodosFormCreateInterface;
 }

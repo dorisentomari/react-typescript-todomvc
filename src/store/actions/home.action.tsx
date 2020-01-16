@@ -3,15 +3,13 @@ import { message } from 'antd';
 import * as TYPES from '../actionTypes';
 
 import { TypeThunkFunction } from 'src/interfaces/store';
-import { TodosFormInterface } from '../../interfaces/http';
+import { TodosFormCreateInterface } from '../../interfaces/http';
 import { TodosCreateHttp } from '../../http';
 
 const HomeAction = {
-  createTodo(todo: TodosFormInterface): TypeThunkFunction {
+  createTodo(todo: TodosFormCreateInterface): TypeThunkFunction {
     return async (dispatch: Dispatch) => {
       const result: any = await TodosCreateHttp(todo);
-      console.log('result');
-      console.log(result);
       if (result) {
         dispatch({
           type: TYPES.SET_CREATE_TODO,

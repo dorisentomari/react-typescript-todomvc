@@ -1,14 +1,22 @@
-import React  from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
-import { List, Button, Row, Col, Modal } from 'antd';
+import { Button, Col, List, message, Modal, Row, Pagination } from 'antd';
 import { RouteComponentProps } from 'react-router';
 import HomeAction from 'src/store/actions/home.action';
-import { TodosFormInterface, TodoStatusInterface } from '../../interfaces/http';
+import {
+  TodosFormCreateInterface,
+  TodosFormUpdateDeleteInterface,
+  TodoStatusInterface
+} from '../../interfaces/http';
+import constant from '../../config/constant';
+import { PaginationInterface } from 'src/interfaces/commom/pagination.interface';
 import './index.scss';
 import Header from 'src/components/Header';
 import TodoComponent from 'src/components/Todo';
-import { TodosListGetHttp } from '../../http';
+import { TodosDeleteHttp, TodosListGetHttp } from '../../http';
 import { TypeRootStateInterface } from '../../store/reducers';
+
+const { confirm } = Modal;
 
 interface IParams {
 }
@@ -18,10 +26,13 @@ type StateProps = ReturnType<typeof mapStateToProps>
 type DispatchProps = typeof HomeAction;
 type RouteProps = RouteComponentProps<IParams>;
 interface State {
-  todosList: Array<TodosFormInterface>;
+  todosList: Array<TodosFormUpdateDeleteInterface>;
   visible: boolean;
   todoTitle: string;
-  currentTodo: TodosFormInterface;
+  currentPage: number;
+  currentCreateTodo: TodosFormCreateInterface;
+  currentTodo: TodosFormUpdateDeleteInterface;
+  page: PaginationInterface;
 }
 
 type Props = StateProps & DispatchProps & RouteProps & {
@@ -37,38 +48,89 @@ class HomeComponent extends React.Component<Props, State> {
       todosList: [],
       visible: false,
       todoTitle: '添加 TODO',
-      currentTodo: {
-        id: '',
+      currentCreateTodo: {
         content: '',
-        remark:'',
+        remark:''
+      },
+      currentTodo: {
+        _id: '',
+        content: '',
+        remark: '',
         createTime: '',
-        status: TodoStatusInterface.PENDING,
-      }
+        updateTime: '',
+        status: TodoStatusInterface.PENDING
+      },
+      page: {
+        total: 0,
+        pageSize: constant.PAGE.PAGE_SIZE
+      },
+      currentPage: 1
     };
   }
 
   componentDidMount(): void {
+    this.getTodoList(1);
+  }
+
+  getTodoList = (page?: number): void => {
+
+    if (page) {
+      this.setState({
+        currentPage: page
+      });
+    }
+
     try {
-      TodosListGetHttp().then(res => {
-        console.log(res);
+      TodosListGetHttp({ page, pageSize: this.state.page.pageSize }).then((res: any) => {
+        if (res.data.length === 0) {
+          message.warning('find result is empty');
+          this.setState({
+            todosList: []
+          });
+          return false;
+        }
         this.setState({
           todosList: res.data
+        });
+        const profile = res.profile;
+        this.setState({
+          page: {
+            pageSize: profile.pageSize,
+            total: profile.total
+          }
         });
       });
     }catch (e) {
       console.log(e);
       console.log(e.message);
     }
-  }
+  };
 
-  todoFinish= (todo: TodosFormInterface) => {
+  todoFinish= (todo: TodosFormUpdateDeleteInterface) => {
     console.log('todoFinish');
   };
-  todoUpdate = (todo: TodosFormInterface) => {
+
+  todoUpdate = (todo: TodosFormUpdateDeleteInterface) => {
     console.log('todoUpdate');
   };
-  todoDelete = (todo: TodosFormInterface) => {
+
+  todoDelete = (todo: TodosFormUpdateDeleteInterface) => {
     console.log('todoDelete');
+    confirm({
+      title: 'Do you want to delete this todo?',
+      onOk: () => {
+        TodosDeleteHttp({ _id: todo._id }).then(() => {
+          this.getTodoList();
+          message.success('delete success');
+        }).catch(err => {
+          console.log(err);
+          message.error(err.response.data.message);
+        });
+      },
+      onCancel() {
+        message.warning('you canceled');
+      },
+    });
   };
 
   todoModalOk = () => {
@@ -90,14 +152,14 @@ class HomeComponent extends React.Component<Props, State> {
     });
   };
 
-  todoComponentSubmit = (values: TodosFormInterface) => {
+  todoComponentSubmit = (values: TodosFormCreateInterface) => {
     (async () => {
       await this.props.createTodo(values);
       this.setState({
         visible: false
       });
+      this.getTodoList();
     })();
-
   };
 
   todoComponentCancel = () => {
@@ -136,6 +198,12 @@ class HomeComponent extends React.Component<Props, State> {
                     />
                   </List.Item>
                 )}
+              />
+              <Pagination className='flex-center'
+                current={this.state.currentPage}
+                onChange={(page) => this.getTodoList(page)}
+                total={this.state.page.total}
+                pageSize={this.state.page.pageSize}
               />
             </Col>
             <Col span={6}/>
