@@ -1,6 +1,6 @@
 import * as ls from 'local-storage';
 
-function checkLogin(): boolean {
+export function checkLoginHelper(): boolean {
   const token: string = ls.get('token');
   const expiresIn: number = ls.get('expiresIn');
   if (!token) {
@@ -15,5 +15,3 @@ function checkLogin(): boolean {
   }
   return true;
 }
-
-export default checkLogin;

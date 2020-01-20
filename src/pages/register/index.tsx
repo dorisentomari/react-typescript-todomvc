@@ -6,8 +6,8 @@ import { FormComponentProps } from 'antd/es/form';
 
 import Header from 'src/components/Header';
 
-import AccountForm from 'src/forms/account';
-import errorHandler from 'src/helpers/errorHandler';
+import { AccountForms } from '../../forms';
+import { errorHelpers } from '../../helpers';
 
 import { RegisterHttp } from 'src/http/authorization.http';
 
@@ -32,7 +32,7 @@ const Register: React.FC<Props> = (props) => {
         message.success('register success');
         props.history.push('/login');
       }).catch(err => {
-        errorHandler.httpError(err);
+        errorHelpers.httpError(err);
       });
     });
   };
@@ -44,7 +44,7 @@ const Register: React.FC<Props> = (props) => {
       <Header/>
       <Form onSubmit={handleSubmit}>
         <Form.Item>
-          {getFieldDecorator('email', AccountForm.email)(
+          {getFieldDecorator('email', AccountForms.email)(
             <Input
               prefix={<Icon type='mail' style={{ color: 'rgba(0,0,0,.25)' }} />}
               placeholder='Please input your email'
@@ -52,7 +52,7 @@ const Register: React.FC<Props> = (props) => {
           )}
         </Form.Item>
         <Form.Item>
-          {getFieldDecorator('password', AccountForm.password)(
+          {getFieldDecorator('password', AccountForms.password)(
             <Input
               type='password'
               prefix={<Icon type='lock' style={{ color: 'rgba(0,0,0,.25)' }} />}
@@ -61,7 +61,7 @@ const Register: React.FC<Props> = (props) => {
           )}
         </Form.Item>
         <Form.Item>
-          {getFieldDecorator('rePassword', AccountForm.password)(
+          {getFieldDecorator('rePassword', AccountForms.password)(
             <Input
               type='password'
               prefix={<Icon type='lock' style={{ color: 'rgba(0,0,0,.25)' }} />}

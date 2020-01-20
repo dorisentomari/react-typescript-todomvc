@@ -1,4 +1,4 @@
-import { axios } from './';
+import { axios } from '.';
 import { AccountLoginParamsInterface,
   AccountRegisterParamsInterface,
   JwtTokenInterface } from 'src/interfaces/http';

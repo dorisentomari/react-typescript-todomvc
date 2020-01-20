@@ -1,6 +1,6 @@
 import { Dispatch } from 'redux';
 import { message } from 'antd';
-import * as TYPES from '../actionTypes';
+import * as TYPES from '../action.types';
 
 import { TypeThunkFunction } from 'src/interfaces/store';
 import { TodosFormCreateInterface } from 'src/interfaces/http';

@@ -7,7 +7,7 @@ import './index.scss';
 import Header from 'src/components/Header';
 import TodoComponent from 'src/components/Todo';
 
-import errorHandler from 'src/helpers/errorHandler';
+import { errorHelpers } from 'src/helpers';
 
 import { TodosDeleteHttp, TodosListGetHttp } from 'src/http';
 
@@ -21,7 +21,7 @@ import {
 import { TypeRootStateInterface } from 'src/store/reducers';
 import { PaginationInterface } from 'src/interfaces/commom/pagination.interface';
 
-import constant from 'src/config/constant';
+import constant from 'src/config/constant.config';
 
 const { confirm } = Modal;
 const { TabPane } = Tabs;
@@ -107,7 +107,7 @@ class HomeComponent extends React.Component<Props, State> {
         }
       });
     }).catch(err => {
-      errorHandler.httpError(err);
+      errorHelpers.httpError(err);
     });
   };
 
@@ -141,7 +141,7 @@ class HomeComponent extends React.Component<Props, State> {
           this.getTodoList();
           message.success('delete success');
         }).catch(err => {
-          errorHandler.httpError(err);
+          errorHelpers.httpError(err);
         });
       },
       onCancel() {

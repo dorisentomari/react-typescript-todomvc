@@ -1,7 +1,7 @@
 const minLength = 8;
 const maxLength = 30;
 
-export default {
+const AccountForms = {
   email: {
     rules: [
       { required: true, message: 'Please input your email' }
@@ -14,4 +14,8 @@ export default {
       { max: maxLength, message: `password max length is ${maxLength}` }
     ]
   }
+};
+
+export {
+  AccountForms
 };

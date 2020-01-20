@@ -68,14 +68,14 @@ npm run start
 │   │   └── Todo
 │   │       └── index.tsx
 │   ├── config
-│   │   └── constant.ts
+│   │   └── constant.config.tsx
 │   ├── forms
-│   │   └── account.ts
+│   │   └── account.forms.tsx
 │   ├── helpers
-│   │   ├── AuthRoute.tsx
-│   │   ├── checkLogin.tsx
-│   │   ├── errorHandler.tsx
-│   │   └── utils.ts
+│   │   ├── auth.route.helper.tsx
+│   │   ├── check.login.helper.tsx
+│   │   ├── error.helper.tsx
+│   │   └── utils.tsx
 │   ├── http
 │   │   ├── authorization.http.tsx
 │   │   ├── axios.http.tsx
@@ -84,7 +84,7 @@ npm run start
 │   ├── index.tsx
 │   ├── interfaces
 │   │   ├── commom
-│   │   │   ├── index.interface.tsx
+│   │   │   ├── index.tsx
 │   │   │   └── pagination.interface.tsx
 │   │   ├── http
 │   │   │   ├── authorization.interface.tsx
@@ -92,7 +92,7 @@ npm run start
 │   │   │   └── todos.interface.tsx
 │   │   └── store
 │   │       ├── account.interface.tsx
-│   │       ├── common.tsx
+│   │       ├── common.interface.tsx
 │   │       ├── home.interface.tsx
 │   │       └── index.tsx
 │   ├── pages
@@ -109,7 +109,7 @@ npm run start
 │       ├── actions
 │       │   ├── account.action.tsx
 │       │   └── home.action.tsx
-│       ├── actionTypes.ts
+│       ├── action.types.ts
 │       ├── history.tsx
 │       ├── index.tsx
 │       └── reducers

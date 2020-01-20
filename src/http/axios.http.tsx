@@ -1,7 +1,7 @@
 import Axios, { AxiosError, AxiosRequestConfig, AxiosResponse  } from 'axios';
 import { message } from 'antd';
 import ls from 'local-storage';
-import constant from '../config/constant';
+import constant from '../config/constant.config';
 import history from '../store/history';
 
 const axios = Axios.create({
@@ -42,4 +42,6 @@ axios.interceptors.response.use((res: AxiosResponse) => {
   return Promise.reject();
 });
 
-export default axios;
+export {
+  axios
+};

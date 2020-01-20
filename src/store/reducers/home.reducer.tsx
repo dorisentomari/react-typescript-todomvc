@@ -1,4 +1,4 @@
-import * as TYPES from '../actionTypes';
+import * as TYPES from '../action.types';
 import { HomeStateInterface, ActionInterface } from 'src/interfaces/store';
 import { TodoStatusInterface } from 'src/interfaces/http';
 

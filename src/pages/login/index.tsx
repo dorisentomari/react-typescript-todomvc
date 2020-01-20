@@ -7,7 +7,7 @@ import { FormComponentProps } from 'antd/es/form';
 
 import Header from 'src/components/Header';
 
-import AccountForm from 'src/forms/account';
+import { AccountForms } from 'src/forms';
 
 import AccountAction from 'src/store/actions/account.action';
 
@@ -43,7 +43,7 @@ const Login: React.FC<Props> = (props) => {
       <Form onSubmit={handleSubmit}>
         <Form.Item>
           {getFieldDecorator('email', {
-            rules: AccountForm.email.rules
+            rules: AccountForms.email.rules
           })(
             <Input
               prefix={<Icon type='user' style={{ color: 'rgba(0,0,0,.25)' }} />}
@@ -53,7 +53,7 @@ const Login: React.FC<Props> = (props) => {
         </Form.Item>
         <Form.Item>
           {getFieldDecorator('password', {
-            rules: AccountForm.password.rules
+            rules: AccountForms.password.rules
           })(
             <Input
               type='password'

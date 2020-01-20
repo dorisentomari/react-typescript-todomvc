@@ -3,7 +3,7 @@ import { AxiosError } from 'axios';
 import { Dispatch } from 'redux';
 import { push } from 'connected-react-router';
 
-import errorHandler from 'src/helpers/errorHandler';
+import { errorHelpers } from '../../helpers';
 
 import { LoginHttp } from 'src/http';
 
@@ -20,7 +20,7 @@ const AccountAction = {
         ls('expiresIn', expiresIn);
         return dispatch(push('/'));
       }).catch((error: AxiosError) => {
-        errorHandler.httpError(error);
+        errorHelpers.httpError(error);
       });
     };
   }

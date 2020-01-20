@@ -7,7 +7,7 @@ import { ConnectedRouter } from 'connected-react-router';
 import store from './store';
 import history from './store/history';
 import 'src/assets/style/global.scss';
-import AuthRoute from './helpers/AuthRoute';
+import { AuthRouteHelper } from './helpers';
 
 import Home from './pages/home';
 import Login from './pages/login';
@@ -17,7 +17,7 @@ ReactDOM.render((
   <Provider store={store}>
     <ConnectedRouter history={history}>
       <Switch>
-        <AuthRoute component={Home} path={'/'} exact={true} />
+        <AuthRouteHelper component={Home} path={'/'} exact={true} />
         <Route path='/login' component={Login} exact={true} />
         <Route path='/register' component={Register} exact={true} />
         <Route component={Home} />
