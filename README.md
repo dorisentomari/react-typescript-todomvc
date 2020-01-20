@@ -27,19 +27,95 @@ npm run start
 // open your browser and visit http://localhost:3000
 ```
 
-# 文件引入顺序
-+ react/react-dom/redux 等全家桶组件及属性
-+ antd 组件及属性
-+ 样式
-+ --------
-+ 自己写的其他组件
-+ --------
-+ form/error
-+ --------
-+ http
-+ --------
-+ redux-action
-+ --------
-+ interface 等类型
-+ --------
-+ 常量等
+# 文件目录(File Directory)
+
+```
+.
+├── config
+│   ├── env.js
+│   ├── jest
+│   │   ├── cssTransform.js
+│   │   └── fileTransform.js
+│   ├── modules.js
+│   ├── paths.js
+│   ├── pnpTs.js
+│   ├── webpack.config.js
+│   └── webpackDevServer.config.js
+├── jest.config.js
+├── package.json
+├── public
+│   ├── favicon.ico
+│   ├── index.html
+│   ├── logo192.png
+│   ├── logo512.png
+│   ├── manifest.json
+│   └── robots.txt
+├── README.md
+├── scripts
+│   ├── build.js
+│   ├── start.js
+│   └── test.js
+├── src
+│   ├── assets
+│   │   ├── images
+│   │   │   └── logo.png
+│   │   └── style
+│   │       ├── base.scss
+│   │       └── global.scss
+│   ├── components
+│   │   ├── Header
+│   │   │   └── index.tsx
+│   │   └── Todo
+│   │       └── index.tsx
+│   ├── config
+│   │   └── constant.ts
+│   ├── forms
+│   │   └── account.ts
+│   ├── helpers
+│   │   ├── AuthRoute.tsx
+│   │   ├── checkLogin.tsx
+│   │   ├── errorHandler.tsx
+│   │   └── utils.ts
+│   ├── http
+│   │   ├── authorization.http.tsx
+│   │   ├── axios.http.tsx
+│   │   ├── index.tsx
+│   │   └── todos.http.tsx
+│   ├── index.tsx
+│   ├── interfaces
+│   │   ├── commom
+│   │   │   ├── index.interface.tsx
+│   │   │   └── pagination.interface.tsx
+│   │   ├── http
+│   │   │   ├── authorization.interface.tsx
+│   │   │   ├── index.tsx
+│   │   │   └── todos.interface.tsx
+│   │   └── store
+│   │       ├── account.interface.tsx
+│   │       ├── common.tsx
+│   │       ├── home.interface.tsx
+│   │       └── index.tsx
+│   ├── pages
+│   │   ├── home
+│   │   │   ├── index.scss
+│   │   │   └── index.tsx
+│   │   ├── login
+│   │   │   └── index.tsx
+│   │   └── register
+│   │       └── index.tsx
+│   ├── react-app-env.d.ts
+│   ├── setupTests.ts
+│   └── store
+│       ├── actions
+│       │   ├── account.action.tsx
+│       │   └── home.action.tsx
+│       ├── actionTypes.ts
+│       ├── history.tsx
+│       ├── index.tsx
+│       └── reducers
+│           ├── account.reducer.tsx
+│           ├── home.reducer.tsx
+│           └── index.tsx
+├── tsconfig.json
+└── yarn.lock
+```
