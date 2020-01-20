@@ -13,14 +13,14 @@ export const TodosCreateHttp = async (bodyParams: TodosFormCreateInterface) => {
 };
 
 export const TodosUpdateHttp = async (pathParams: TodosFormUpdateDeletePathInterface, bodyParams: TodosFormUpdateDeleteInterface) => {
-  const { _id } = pathParams;
-  const result = await axios.post(`/api/v1/todos/${_id}/update`, bodyParams);
+  const { id } = pathParams;
+  const result = await axios.post(`/api/v1/todos/${id}/update`, bodyParams);
   return Promise.resolve(result);
 };
 
 export const TodosDeleteHttp = async (pathParams: TodosFormUpdateDeletePathInterface) => {
-  const { _id } = pathParams;
-  const result = await axios.post(`/api/v1/todos/${_id}/delete`);
+  const { id } = pathParams;
+  const result = await axios.post(`/api/v1/todos/${id}/delete`);
   return Promise.resolve(result);
 };
 

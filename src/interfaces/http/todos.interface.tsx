@@ -15,11 +15,11 @@ export interface TodosFormCreateInterface {
 }
 
 export interface TodosFormUpdateDeletePathInterface {
-  _id: string;
+  id: string;
 }
 
 export interface TodosFormUpdateDeleteInterface {
-  _id: string;
+  id: string;
   content: string;
   remark?: string;
   createTime: string;

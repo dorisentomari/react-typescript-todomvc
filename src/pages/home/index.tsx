@@ -61,7 +61,7 @@ class HomeComponent extends React.Component<Props, State> {
         remark:''
       },
       currentTodo: {
-        _id: '',
+        id: '',
         content: '',
         remark: '',
         createTime: '',
@@ -137,7 +137,7 @@ class HomeComponent extends React.Component<Props, State> {
     confirm({
       title: 'Do you want to delete this todo?',
       onOk: () => {
-        TodosDeleteHttp({ _id: todo._id }).then(() => {
+        TodosDeleteHttp({ id: todo.id }).then(() => {
           this.getTodoList();
           message.success('delete success');
         }).catch(err => {
